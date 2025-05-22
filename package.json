@@ -1,0 +1,41 @@
+{
+  "name": "booklistapi",
+  "version": "1.0.0",
+  "description": "Minimal Express and MongoDB API for managing a book list with Amazon integration and recommendations",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AraMyst/BookListAPI.git"
+  },
+  "keywords": [
+    "book",
+    "api",
+    "express",
+    "mongodb",
+    "amazon",
+    "recommendations"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AraMyst/BookListAPI/issues"
+  },
+  "homepage": "https://github.com/AraMyst/BookListAPI#readme",
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "mongoose": "^8.15.0"
+  },
+  "devDependencies": {
+    "eslint": "^9.27.0",
+    "nodemon": "^3.1.10",
+    "prettier": "^3.5.3"
+  }
+}
