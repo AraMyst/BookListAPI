@@ -1,32 +1,32 @@
 // services/amazon.js
 
-const querystring = require('querystring');
+const { AWS_ASSOCIATE_TAG } = process.env;
 
 /**
- * Build an Amazon search URL for a given book title and author.
- * @param {string} title
- * @param {string} author
- * @returns {string}
+ * Build an Amazon UK search URL for a given title and author.
+ * If the title string is already a full Amazon URL, it returns it directly.
  */
 function buildAmazonUrl(title, author) {
-  const searchTerm = `${title} ${author}`;
-  const encoded = encodeURIComponent(searchTerm);
-  return `https://www.amazon.com/s?k=${encoded}`;
+ const amazonUkPattern = /^https?:\/\/(www\.)?amazon\.co\.uk\/.+/i;
+  if (amazonUkPattern.test(title)) {
+    // user provided a direct link → return as is
+    return title;
+  }
+  const keywords = encodeURIComponent(`${title} ${author}`);
+  return `https://www.amazon.co.uk/s?k=${keywords}&tag=${AWS_ASSOCIATE_TAG}`;
 }
 
 /**
- * Generate simple recommendations based on author.
- * Currently returns three placeholder titles.
- * You can replace this with real API calls if needed.
- * @param {string} author
- * @returns {Promise<string[]>}
+ * Placeholder for recommendations.
+ * You can implement real calls to the Product Advertising API here,
+ * using the global fetch if needed.
  */
 async function getRecommendations(author) {
-  return [
-    `${author} Masterpiece`,
-    `The Best of ${author}`,
-    `${author}'s Greatest Work`
-  ];
+  // Example: return an empty array or mock data.
+  return [];
 }
 
-module.exports = { buildAmazonUrl, getRecommendations };
+module.exports = {
+  buildAmazonUrl,
+  getRecommendations
+};
