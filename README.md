@@ -1,71 +1,69 @@
-# BookListAPI
+# 📚 BookListAPI
 
-[![Live on Render](https://img.shields.io/badge/Live-Render-brightgreen)](https://booklistapi-vghq.onrender.com)
+A minimalist, RESTful service for managing your personal reading list – powered by **Express 5** and **MongoDB (Mongoose 8)**. Each book record automatically includes an Amazon UK search link and placeholder recommendations, making it an ideal starting point for further e‑commerce integrations.
 
-A simple RESTful API for managing your book list, built with Express and MongoDB.
-
----
-
-## Table of Contents
-
-- [About](#about)  
-- [Features](#features)  
-- [Tech Stack](#tech-stack)  
-- [Getting Started](#getting-started)  
-  - [Prerequisites](#prerequisites)  
-  - [Installation](#installation)  
-  - [Environment Variables](#environment-variables)  
-- [Usage](#usage)  
-  - [Base URL](#base-url)  
-  - [Endpoints](#endpoints)  
-- [Deployment](#deployment)  
-- [License](#license)  
+> **Live demo →** https://booklistapi-vghq.onrender.com/
 
 ---
 
-## About
+## ✨ Features
 
-BookListAPI is a backend service providing CRUD operations for books.  
-Each book entry includes:
-
-- **title** (string)  
-- **author** (string)  
-- **read** (boolean)  
-- **amazon** (string) – an Amazon UK search URL  
-- **recs** (array of strings) – placeholder recommendations  
-
----
-
-## Features
-
-- **Create** a new book (title, author, read flag)  
-- **Read** all books or a single book by ID  
-- **Update** title, author, or mark as read  
-- **Delete** a book by ID  
-- Automatic generation of Amazon UK search URLs  
-- Placeholder for future Product Advertising API recommendations  
+|                            |                                                                |
+| -------------------------- | -------------------------------------------------------------- |
+| ➕ **Create books**         | `title`, `author`, optional `read` flag and custom Amazon URL. |
+| 🔍 **Read books**          | Fetch **all** books or a **single** record by ID.              |
+| ✏️ **Update books**        | Edit title/author, toggle `read`, or override the Amazon link. |
+| ❌ **Delete books**         | Remove an entry by ID.                                         |
+| 🔗 **Amazon helper**       | Builds a UK search URL if none supplied.                       |
+| 🤖 **Recommendation stub** | Service layer prepared for Product Advertising API calls.      |
+| 🩺 **Health‑check**        | `GET /` confirms the service is alive.                         |
 
 ---
 
-## Tech Stack
+## 🛠 Tech Stack
 
-- **Node.js**  
-- **Express**  
-- **Mongoose** (MongoDB ODM)  
-- **dotenv** (environment variable management)  
+| Layer     | Technology        | Purpose / Notes                            |
+| --------- | ----------------- | ------------------------------------------ |
+| Runtime   | **Node.js 20**    | Modern LTS.                                |
+| Framework | **Express 5**     | Async/await friendly routing & middleware. |
+| Database  | **MongoDB Atlas** | Cloud document database (local ok too).    |
+| ODM       | **Mongoose 8**    | Schema enforcement & validation.           |
+| Config    | **dotenv**        | Loads secrets from `.env`.                 |
 
 ---
 
-## Getting Started
+## 📑 Endpoints
 
-### Prerequisites
+### Health‑check
 
-- [Node.js](https://nodejs.org/) v14+  
-- [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) account (or a local MongoDB instance)  
+| Method | Endpoint | Description                             |
+| ------ | -------- | --------------------------------------- |
+| GET    | `/`      | Returns *BookListAPI is up and running* |
 
-### Installation
+### Books CRUD
 
-1. **Clone the repository**  
-   ```bash
-   git clone https://github.com/AraMyst/BookListAPI.git
-   cd BookListAPI
+| Method | Endpoint     | Payload                               | Description                                                                      |
+| ------ | ------------ | ------------------------------------- | -------------------------------------------------------------------------------- |
+| POST   | `/books`     | `{ title, author, read?, amazon? }`   | Create a book. Amazon link is auto‑generated if omitted.                         |
+| GET    | `/books`     | –                                     | List all books.                                                                  |
+| GET    | `/books/:id` | –                                     | Get a single book by Mongo `_id`.                                                |
+| PUT    | `/books/:id` | `{ title?, author?, read?, amazon? }` | Update a book. Omitting `amazon` triggers regeneration when title/author change. |
+| DELETE | `/books/:id` | –                                     | Remove a book.                                                                   |
+
+---
+
+## 🏗 Project Structure
+
+```
+src/
+├── app.js            # Express setup & Mongo connection
+├── controllers/
+│   └── book.js       # CRUD logic
+├── models/
+│   └── Book.js       # Mongoose schema/model
+├── routes/
+│   └── books.js      # Books router
+├── services/
+│   └── amazon.js     # Amazon URL builder + rec stub
+└── .env.sample       # Config template
+```
